@@ -1,32 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalTable from './ModalTable';
 import '../styles/Modal.css';
 
 const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade, setSelectedGrade, totalPoints }) => {
-  const assesment = [
-    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95, percentage: '95%', letter_grade: 'A'},
-    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95, percentage: '95%', letter_grade: 'A'},
-    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 10, pointsEarned: 0, percentage: '0%', letter_grade: 'E'},
-    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 85, percentage: '85%', letter_grade: 'B'},
-    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 0, percentage: '0%', letter_grade: 'E'},
-    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 90, percentage: '90%', letter_grade: 'A'},
+   const assessment = [
+    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95 },
+    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95 },
+    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 10, pointsEarned: 0 },
+    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 85 },
+    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 0 },
+    { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 90 },
   ];
 
-  const [modalAssignments] = useState(assesment); // Use `assesment` directly instead of `filteredAssignments`
-
-  const [updatedAssignments, setUpdatedAssignments] = useState(modalAssignments);
-
+  const [modalAssignments, setModalAssignments] = useState(assessment);
+    const [selectedFinalGrade, setSelectedFinalGrade] = useState('');
   const handleGradeChangeModal = (event, index) => {
     const newPointsEarned = parseInt(event.target.value);
-    const updatedAssignmentsCopy = [...updatedAssignments];
-    updatedAssignmentsCopy[index].pointsEarned = newPointsEarned;
-    setUpdatedAssignments(updatedAssignmentsCopy);
+    setModalAssignments((prevAssignments) => {
+      const updatedAssignments = [...prevAssignments];
+      updatedAssignments[index].possiblePointsEarned = newPointsEarned;
+      return updatedAssignments;
+    });
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-    setUpdatedAssignments([...modalAssignments]); // Reset updatedAssignments to original values
+  const calculatePercentage = (pointsEarned, totalPoints) => {
+    if (totalPoints === 0) {
+      return 0;
+    }
+    return ((pointsEarned / totalPoints) * 100).toFixed(2);
   };
+
+  const calculateGrade = (percentage) => {
+    if (percentage >= 90) {
+      return 'A';
+    } else if (percentage >= 80) {
+      return 'B';
+    } else if (percentage >= 70) {
+      return 'C';
+    } else if (percentage >= 60) {
+      return 'D';
+    } else {
+      return 'E';
+    }
+  };
+
+  useEffect(() => {
+    const updatedAssignmentsCopy = modalAssignments.map((assignment) => {
+      const percentage = calculatePercentage(assignment.pointsEarned, assignment.totalPoints);
+      const grade = calculateGrade(percentage);
+      return { ...assignment, percentage, letter_grade: grade };
+    });
+    setModalAssignments(updatedAssignmentsCopy);
+  }, [modalAssignments]);
+
+  const handleSubmit = () => {
+    const updatedAssignmentsCopy = modalAssignments.map((assignment) => {
+      if (assignment.pointsEarned === 0) {
+        const percentage = calculatePercentage(assignment.possiblePointsEarned, assignment.totalPoints);
+        const grade = calculateGrade(percentage);
+        return {
+          ...assignment,
+          percentage,
+          letter_grade: grade,
+        };
+      }
+      return assignment;
+    });
+  
+    // Update the selected final grade
+    setSelectedFinalGrade(calculateGrade(calculatePercentage(totalPoints - selectedGrade, totalPoints)));
+  
+    setModalAssignments(updatedAssignmentsCopy);
+  };
+  
 
   return (
     <div className={`modal ${showModal ? 'show' : ''}`}>
@@ -38,39 +84,57 @@ const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade,
           </button>
         </div>
         <div className="modal-body">
-          <ModalTable modal_assignments={updatedAssignments} handleGradeChangeModal={handleGradeChangeModal} />
+          <table>
+            <thead>
+              <tr>
+                <th>Assignment</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Total Points</th>
+                <th>Points Earned</th>
+                <th>%</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              {modalAssignments.map((assignment, index) => (
+                <tr key={index}>
+                  <td>{assignment.work}</td>
+                  <td>{assignment.category}</td>
+                  <td>{assignment.date}</td>
+                  <td>{assignment.totalPoints}</td>
+                  <td>
+                    {assignment.pointsEarned === 0 ? (
+                      <input
+                        type="number"
+                        min="0"
+                        max={assignment.totalPoints}
+                        value={assignment.possiblePointsEarned}
+                        onChange={(event) => handleGradeChangeModal(event, index)}
+                      />
+                    ) : (
+                      assignment.pointsEarned
+                    )}
+                  </td>
+                  <td>{assignment.percentage || '-'}</td>
+                  <td>{assignment.letter_grade || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className="modal-sidebar">
           <h3>Choose Final Grade:</h3>
           <div className="grade-buttons">
-            <button
-              className={`grade-btn ${selectedGrade === 'A' ? 'active' : ''}`}
-              onClick={() => handleGradeOptionClick('A')}
-            >
-              A
-            </button>
-            <button
-              className={`grade-btn ${selectedGrade === 'B' ? 'active' : ''}`}
-              onClick={() => handleGradeOptionClick('B')}
-            >
-              B
-            </button>
-            <button
-              className={`grade-btn ${selectedGrade === 'C' ? 'active' : ''}`}
-              onClick={() => handleGradeOptionClick('C')}
-            >
-              C
-            </button>
-            <button
-              className={`grade-btn ${selectedGrade === 'D' ? 'active' : ''}`}
-              onClick={() => handleGradeOptionClick('D')}
-            >
-              D
-            </button>
+            {/* ...existing grade buttons... */}
           </div>
+          <button className="submit-btn" onClick={handleSubmit}>
+            Submit
+          </button>
         </div>
-      </div>
-    </div>
+        </div>
+        </div>
+
   );
 };
 
