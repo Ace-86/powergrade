@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ModalTable = ({ modal_assignments, handleGradeChangeModal }) => {
+const ModalTable = ({ modalAssignments, handleGradeChangeModal }) => {
   return (
     <table>
       <thead>
@@ -15,7 +15,7 @@ const ModalTable = ({ modal_assignments, handleGradeChangeModal }) => {
         </tr>
       </thead>
       <tbody>
-        {modal_assignments.map((assignment, index) => (
+        {modalAssignments.map((assignment, index) => (
           <tr key={index}>
             <td>{assignment.work}</td>
             <td>{assignment.category}</td>
@@ -34,8 +34,8 @@ const ModalTable = ({ modal_assignments, handleGradeChangeModal }) => {
                 assignment.pointsEarned
               )}
             </td>
-            <td>{assignment.percentage}</td>
-            <td>{assignment.letter_grade}</td>
+            <td>{assignment.percentage || '-'}</td>
+            <td>{assignment.letter_grade || '-'}</td>
           </tr>
         ))}
       </tbody>
