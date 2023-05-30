@@ -15,27 +15,27 @@ const ModalTable = ({ modal_assignments, handleGradeChangeModal }) => {
         </tr>
       </thead>
       <tbody>
-        {modal_assignments.map((massignment, index) => (
+        {modal_assignments.map((assignment, index) => (
           <tr key={index}>
-            <td>{massignment.work}</td>
-            <td>{massignment.category}</td>
-            <td>{massignment.date}</td>
-            <td>{massignment.totalPoints}</td>
+            <td>{assignment.work}</td>
+            <td>{assignment.category}</td>
+            <td>{assignment.date}</td>
+            <td>{assignment.totalPoints}</td>
             <td>
-              {massignment.pointsEarned === 0 ? (
+              {assignment.pointsEarned === 0 ? (
                 <input
                   type="number"
                   min="0"
-                  max={massignment.totalPoints}
-                  value={massignment.pointsEarned}
+                  max={assignment.totalPoints}
+                  value={assignment.possiblePointsEarned}
                   onChange={(event) => handleGradeChangeModal(event, index)}
                 />
               ) : (
-                massignment.pointsEarned
+                assignment.pointsEarned
               )}
             </td>
-            <td>{massignment.percentage}</td>
-            <td>{massignment.letter_grade}</td>
+            <td>{assignment.percentage}</td>
+            <td>{assignment.letter_grade}</td>
           </tr>
         ))}
       </tbody>
