@@ -28,7 +28,8 @@ const GradeHistory = () => {
   const [selectedGrade, setSelectedGrade] = useState('');
 
   // Filter assignments based on className
-  useState(() => {
+
+   useState(() => {
     const filtered = assignments.filter((assignment) => assignment.className === className);
     setFilteredAssignments(filtered);
   }, [className]);
@@ -37,33 +38,24 @@ const GradeHistory = () => {
   const pointsEarned = filteredAssignments.reduce((sum, assignment) => sum + assignment.pointsEarned, 0);
   const gradePercentage = calculateGradePercentage(pointsEarned, totalPoints);
 
-
   const handleGradeChange = (event, index) => {
     const newPointsEarned = parseInt(event.target.value);
     const updatedAssignments = [...filteredAssignments];
     updatedAssignments[index].pointsEarned = newPointsEarned;
-    const newPointsEarnedTotal = updatedAssignments.reduce(
-      (sum, assignment) => sum + assignment.pointsEarned,
-      0
-    );
-
-    const newGradePercentage = calculateGradePercentage(
-      newPointsEarnedTotal,
-      totalPoints
-    );
-    setSelectedGrade(newGradePercentage);
+    setFilteredAssignments(updatedAssignments);
   };
 
   const handleGradeOptionClick = (grade) => {
     setSelectedGrade(grade);
     const updatedAssignments = [...filteredAssignments];
     const gradePercentage = grade === 'A' ? 90 : grade === 'B' ? 80 : grade === 'C' ? 70 : 60;
-    const maxPointsEarned = (gradePercentage / 10) * totalPoints;
+    const maxPointsEarned = (gradePercentage / 100) * totalPoints;
     updatedAssignments.forEach((assignment) => {
       if (assignment.pointsEarned === 0) {
         assignment.pointsEarned = maxPointsEarned;
       }
     });
+    setFilteredAssignments(updatedAssignments);
   };
 
   return (
@@ -72,23 +64,22 @@ const GradeHistory = () => {
       <button className="edit-btn" onClick={() => setShowModal(true)}>
         Edit Grades
       </button>
-      <GradeTable filteredAssignments={filteredAssignments} handleGradeChange={handleGradeChange} />
+      <GradeTable filteredAssignments={filteredAssignments} />
       <div>
         <p>Final Points Earned: {pointsEarned}</p>
         <p>Total Points: {totalPoints}</p>
         <p>Grade: {gradePercentage}</p>
       </div>
-   <Modal
-  showModal={showModal}
-  setShowModal={setShowModal}
-  filteredAssignments={filteredAssignments}
-  handleGradeChange={handleGradeChange}
-  handleGradeOptionClick={handleGradeOptionClick}
-  pointsEarned={pointsEarned}
-  totalPoints={totalPoints}
-  gradePercentage={gradePercentage}
-/>
-
+      {showModal && (
+        <Modal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          filteredAssignments={filteredAssignments}
+          handleGradeChange={handleGradeChange}
+          handleGradeOptionClick={handleGradeOptionClick}
+          selectedGrade={selectedGrade}
+        />
+      )}
     </div>
   );
 };
