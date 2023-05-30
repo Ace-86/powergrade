@@ -25,9 +25,6 @@ const GradeHistory = () => {
   const { className } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [filteredAssignments, setFilteredAssignments] = useState([]);
-  const [selectedGrade, setSelectedGrade] = useState('');
-
-  // Filter assignments based on className
 
    useState(() => {
     const filtered = assignments.filter((assignment) => assignment.className === className);
@@ -37,26 +34,6 @@ const GradeHistory = () => {
   const totalPoints = filteredAssignments.reduce((sum, assignment) => sum + assignment.totalPoints, 0);
   const pointsEarned = filteredAssignments.reduce((sum, assignment) => sum + assignment.pointsEarned, 0);
   const gradePercentage = calculateGradePercentage(pointsEarned, totalPoints);
-
-  const handleGradeChange = (event, index) => {
-    const newPointsEarned = parseInt(event.target.value);
-    const updatedAssignments = [...filteredAssignments];
-    updatedAssignments[index].pointsEarned = newPointsEarned;
-    setFilteredAssignments(updatedAssignments);
-  };
-
-  const handleGradeOptionClick = (grade) => {
-    setSelectedGrade(grade);
-    const updatedAssignments = [...filteredAssignments];
-    const gradePercentage = grade === 'A' ? 90 : grade === 'B' ? 80 : grade === 'C' ? 70 : 60;
-    const maxPointsEarned = (gradePercentage / 100) * totalPoints;
-    updatedAssignments.forEach((assignment) => {
-      if (assignment.pointsEarned === 0) {
-        assignment.pointsEarned = maxPointsEarned;
-      }
-    });
-    setFilteredAssignments(updatedAssignments);
-  };
 
   return (
     <div className="container">
@@ -75,9 +52,7 @@ const GradeHistory = () => {
           showModal={showModal}
           setShowModal={setShowModal}
           filteredAssignments={filteredAssignments}
-          handleGradeChange={handleGradeChange}
-          handleGradeOptionClick={handleGradeOptionClick}
-          selectedGrade={selectedGrade}
+          
         />
       )}
     </div>
