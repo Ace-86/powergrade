@@ -14,14 +14,9 @@ function App() {
         </li>
       </ul>
     </nav>
-
     <Routes>
-      <Route path="/" exact>
-        <ClassList />
-      </Route>
-      <Route path="/grade-history/:className">
-        <GradeHistory />
-      </Route>
+      <Route path="/" exact element={<ClassList />} />
+      <Route path="/grade-history/:className"  element={<GradeHistory />} />
     </Routes>
   </Router>
 );
