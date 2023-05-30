@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GradeTable = ({ filteredAssignments, handleGradeChange }) => {
+const GradeTable = ({ filteredAssignments }) => {
   return (
     <table>
       <thead>
@@ -21,19 +21,7 @@ const GradeTable = ({ filteredAssignments, handleGradeChange }) => {
             <td>{assignment.category}</td>
             <td>{assignment.date}</td>
             <td>{assignment.totalPoints}</td>
-            <td>
-              {assignment.pointsEarned === 0 ? (
-                <input
-                  type="number"
-                  min="0"
-                  max={assignment.totalPoints}
-                  value={assignment.pointsEarned}
-                  onChange={(event) => handleGradeChange(event, index)}
-                />
-              ) : (
-                assignment.pointsEarned
-              )}
-            </td>
+            <td>{assignment.pointsEarned}</td>
             <td>{assignment.percentage}</td>
             <td>{assignment.letter_grade}</td>
           </tr>

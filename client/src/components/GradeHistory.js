@@ -45,6 +45,7 @@ const GradeHistory = () => {
       (sum, assignment) => sum + assignment.pointsEarned,
       0
     );
+
     const newGradePercentage = calculateGradePercentage(
       newPointsEarnedTotal,
       totalPoints
@@ -70,7 +71,7 @@ const GradeHistory = () => {
       <button className="edit-btn" onClick={() => setShowModal(true)}>
         Edit Grades
       </button>
-      <GradeTable filteredAssignments={filteredAssignments} handleGradeChange={handleGradeChange} />
+      <GradeTable filteredAssignments={filteredAssignments} />
       <div>
         <p>Final Points Earned: {pointsEarned}</p>
         <p>Total Points: {totalPoints}</p>
@@ -82,6 +83,7 @@ const GradeHistory = () => {
         filteredAssignments={filteredAssignments}
         handleGradeChange={handleGradeChange}
         handleGradeOptionClick={handleGradeOptionClick}
+        selectedGrade={selectedGrade}
       />
     </div>
   );
