@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import '../styles/ClassList.css';
 
 const classes = [
   { name: 'English', room: '101', teacher: 'Mr. Smith' },
