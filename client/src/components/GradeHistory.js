@@ -6,7 +6,7 @@ import GradeTable from './GradeTable';
 const assignments = [
   { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95, percentage: '95%', letter_grade: 'A'},
   { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95, percentage: '95%', letter_grade: 'A'},
-  { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 0, percentage: '0%', letter_grade: 'E'},
+  { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 10, pointsEarned: 0, percentage: '0%', letter_grade: 'E'},
   { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 85, percentage: '85%', letter_grade: 'B'},
   { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 0, percentage: '0%', letter_grade: 'E'},
   { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 90, percentage: '90%', letter_grade: 'A'},
@@ -37,6 +37,7 @@ const GradeHistory = () => {
   const pointsEarned = filteredAssignments.reduce((sum, assignment) => sum + assignment.pointsEarned, 0);
   const gradePercentage = calculateGradePercentage(pointsEarned, totalPoints);
 
+
   const handleGradeChange = (event, index) => {
     const newPointsEarned = parseInt(event.target.value);
     const updatedAssignments = [...filteredAssignments];
@@ -57,7 +58,7 @@ const GradeHistory = () => {
     setSelectedGrade(grade);
     const updatedAssignments = [...filteredAssignments];
     const gradePercentage = grade === 'A' ? 90 : grade === 'B' ? 80 : grade === 'C' ? 70 : 60;
-    const maxPointsEarned = (gradePercentage / 100) * totalPoints;
+    const maxPointsEarned = (gradePercentage / 10) * totalPoints;
     updatedAssignments.forEach((assignment) => {
       if (assignment.pointsEarned === 0) {
         assignment.pointsEarned = maxPointsEarned;
@@ -71,20 +72,23 @@ const GradeHistory = () => {
       <button className="edit-btn" onClick={() => setShowModal(true)}>
         Edit Grades
       </button>
-      <GradeTable filteredAssignments={filteredAssignments} />
+      <GradeTable filteredAssignments={filteredAssignments} handleGradeChange={handleGradeChange} />
       <div>
         <p>Final Points Earned: {pointsEarned}</p>
         <p>Total Points: {totalPoints}</p>
         <p>Grade: {gradePercentage}</p>
       </div>
-      <Modal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        filteredAssignments={filteredAssignments}
-        handleGradeChange={handleGradeChange}
-        handleGradeOptionClick={handleGradeOptionClick}
-        selectedGrade={selectedGrade}
-      />
+   <Modal
+  showModal={showModal}
+  setShowModal={setShowModal}
+  filteredAssignments={filteredAssignments}
+  handleGradeChange={handleGradeChange}
+  handleGradeOptionClick={handleGradeOptionClick}
+  pointsEarned={pointsEarned}
+  totalPoints={totalPoints}
+  gradePercentage={gradePercentage}
+/>
+
     </div>
   );
 };
