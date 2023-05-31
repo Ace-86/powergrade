@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ModalTable from './ModalTable';
 import '../styles/Modal.css';
 
-const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade, setSelectedGrade, totalPoints }) => {
+
+//dummy data
+const Modal = ({ showModal, setShowModal }) => {
   const assessment = [
     { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95 },
     { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 95 },
@@ -12,19 +14,23 @@ const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade,
     { work: 'workbook page 45', category: 'in-class', className: 'Math', date: '2023-05-08', totalPoints: 100, pointsEarned: 90 },
   ];
 
+   // State variable to hold assignments with additional property
   const [modalAssignments, setModalAssignments] = useState(
     assessment.map((assignment) => ({ ...assignment, possiblePointsEarned: 0 }))
   );
 
+   // Handler function for grade change in the modal
   const handleGradeChangeModal = (event, index) => {
     const newPointsEarned = parseInt(event.target.value);
     setModalAssignments((prevAssignments) => {
       const updatedAssignments = [...prevAssignments];
+      // Update the possiblePointsEarned for the assignment at the given index
       updatedAssignments[index].possiblePointsEarned = newPointsEarned;
       return updatedAssignments;
     });
   };
 
+  // Calculate percentage based on points earned and total points
   const calculatePercentage = (pointsEarned, totalPoints) => {
     if (totalPoints === 0) {
       return 0;
@@ -32,6 +38,8 @@ const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade,
     return ((pointsEarned / totalPoints) * 100).toFixed(2);
   };
 
+
+  // Determine grade based on the percentage
   const calculateGrade = (percentage) => {
     if (percentage >= 90) {
       return 'A';
@@ -46,6 +54,7 @@ const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade,
     }
   };
 
+    // Update assignments with calculated percentage and grade
   useEffect(() => {
     const updatedAssignmentsCopy = modalAssignments.map((assignment) => {
       const percentage = calculatePercentage(assignment.pointsEarned, assignment.totalPoints);
@@ -55,6 +64,7 @@ const Modal = ({ showModal, setShowModal, handleGradeOptionClick, selectedGrade,
     setModalAssignments(updatedAssignmentsCopy);
   }, [modalAssignments.length]);
 
+  // Handle form submission to update assignments with possiblePointsEarned
 const handleSubmit = () => {
   const updatedAssignmentsCopy = modalAssignments.map((assignment) => {
     if (assignment.pointsEarned === 0 && assignment.possiblePointsEarned !== 0) {

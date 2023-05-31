@@ -1,7 +1,8 @@
 import React from 'react';
 
 const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignments }) => {
-  const calculatePossibleTotalPointsEarned = () => {
+  // Calculate the sum of possiblePointsEarned for all assignments
+    const calculatePossibleTotalPointsEarned = () => {
     let possibleTotalPointsEarned = 0;
     modalAssignments.forEach((assignment) => {
       possibleTotalPointsEarned += assignment.possiblePointsEarned;
@@ -9,6 +10,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
     return possibleTotalPointsEarned;
   };
 
+  // Calculate the percentage based on the sum of points earned and total points of all assignments
   const calculatePossiblePercentage = () => {
     const possibleTotalPointsEarned = calculatePossibleTotalPointsEarned();
     let totalPoints = 0;
@@ -24,6 +26,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
     return ((totalPointsEarned / totalPoints) * 100).toFixed(2);
   };
 
+  // Determine the grade based on the possible percentage
   const calculatePossibleGrade = () => {
     const possiblePercentage = calculatePossiblePercentage();
     if (possiblePercentage >= 90) {
@@ -39,6 +42,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
     }
   };
 
+  // Handle change in possiblePointsEarned for an assignment
   const handlePossibleGradeChange = (event, index) => {
     const newPointsEarned = parseInt(event.target.value);
     const updatedAssignments = [...modalAssignments];
