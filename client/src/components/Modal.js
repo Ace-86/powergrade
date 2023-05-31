@@ -82,10 +82,11 @@ const handleSubmit = () => {
           </button>
         </div>
         <div className="modal-body">
-          <ModalTable
-            modalAssignments={modalAssignments}
-            handleGradeChangeModal={handleGradeChangeModal}
-          />
+        <ModalTable
+          modalAssignments={modalAssignments}
+          handleGradeChangeModal={handleGradeChangeModal}
+          setModalAssignments={setModalAssignments}
+        />
         </div>
         <div className="modal-sidebar">
           <h3>Possible Grade</h3>

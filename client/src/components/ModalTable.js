@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ModalTable = ({ modalAssignments, handleGradeChangeModal }) => {
+const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignments }) => {
   const calculatePossibleTotalPointsEarned = () => {
     let possibleTotalPointsEarned = 0;
     modalAssignments.forEach((assignment) => {
@@ -39,6 +39,13 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal }) => {
     }
   };
 
+  const handlePossibleGradeChange = (event, index) => {
+    const newPointsEarned = parseInt(event.target.value);
+    const updatedAssignments = [...modalAssignments];
+    updatedAssignments[index].possiblePointsEarned = newPointsEarned;
+    setModalAssignments(updatedAssignments);
+  };
+
   return (
     <div>
       <table>
@@ -67,7 +74,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal }) => {
                     min="0"
                     max={assignment.totalPoints}
                     value={assignment.possiblePointsEarned}
-                    onChange={(event) => handleGradeChangeModal(event, index)}
+                    onChange={(event) => handlePossibleGradeChange(event, index)}
                   />
                 ) : (
                   assignment.pointsEarned
