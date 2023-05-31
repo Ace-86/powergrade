@@ -1,0 +1,39 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+  .container .grade-table {
+    margin-bottom: 20px;
+  }
+  
+  .container .grade-table .grade-table-title {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .container .grade-table .grade-table-content {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .container .grade-table .grade-table-content th,
+  .container .grade-table .grade-table-content td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .container .grade-table .grade-table-content thead th {
+    font-weight: bold;
+  }
+  
+  .container .grade-table .grade-table-content tfoot td {
+    font-weight: bold;
+  }
+  
