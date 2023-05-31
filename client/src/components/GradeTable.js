@@ -1,8 +1,10 @@
 import React from 'react';
-
+import '../styles/GradeTable.css';
 const GradeTable = ({ filteredAssignments }) => {
   return (
-    <table>
+    <div className="grade-table">
+    <h2 className="grade-table-title">Grades</h2>
+    <table className="grade-table-content">
       <thead>
         <tr>
           <th>Assignment</th>
@@ -28,6 +30,7 @@ const GradeTable = ({ filteredAssignments }) => {
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 
