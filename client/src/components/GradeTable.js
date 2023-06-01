@@ -1,5 +1,7 @@
 import React from 'react';
 import '../styles/GradeTable.css';
+
+
 const GradeTable = ({ filteredAssignments }) => {
   return (
     <div className="grade-table">
@@ -24,8 +26,8 @@ const GradeTable = ({ filteredAssignments }) => {
             <td>{assignment.date}</td>
             <td>{assignment.totalPoints}</td>
             <td>{assignment.pointsEarned}</td>
-            <td>{assignment.percentage}</td>
-            <td>{assignment.letter_grade}</td>
+            <td>{assignment.percent}</td>
+            <td>{assignment.perm_grade}</td>
           </tr>
         ))}
       </tbody>
