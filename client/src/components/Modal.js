@@ -56,7 +56,7 @@ const Modal = ({ showModal, setShowModal, filteredAssignments }) => {
     <div className={`modal ${showModal ? 'show' : ''}`}>
       <div className="modal-content">
         <div className="modal-header">
-          <h2>Possible Grade</h2>
+          <h2>Grade Simulation</h2>
           <button className="close-btn" onClick={() => setShowModal(false)}>
             &times;
           </button>
