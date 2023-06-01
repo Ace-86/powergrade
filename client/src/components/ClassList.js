@@ -3,23 +3,37 @@ import { Link } from 'react-router-dom';
 import '../styles/ClassList.css';
 
 const classes = [
-  { name: 'English', room: '101', teacher: 'Mr. Smith' },
-  { name: 'Math', room: '201', teacher: 'Mrs. Johnson' },
-  { name: 'Gym', room: 'Gymnasium', teacher: 'Coach Anderson' },
-  { name: 'Science', room: '301', teacher: 'Dr. Davis' }
+  { name: 'English', room: '101', teacher: 'Mr. Smith', className: 'english' },
+  { name: 'Math', room: '201', teacher: 'Mrs. Johnson', className: 'math' },
+  { name: 'Gym', room: 'Gymnasium', teacher: 'Coach Anderson', className: 'gym' },
+  { name: 'Science', room: '301', teacher: 'Mr. Davis', className: 'science' },
+  { name: 'History', room: '301', teacher: 'Mrs. Anderson', className: '' },
 ];
 
 const ClassList = () => {
   return (
-    <div>
+    <div className='class-container'>
       <h2>Classes</h2>
-      <ul>
-        {classes.map((cls, index) => (
-          <li key={index}>
-            <Link to={`/grade-history/${cls.name}`}>{cls.name}</Link> - Room: {cls.room}, Teacher: {cls.teacher}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Class Name</th>
+            <th>Room</th>
+            <th>Teacher</th>
+          </tr>
+        </thead>
+        <tbody>
+          {classes.map((cls, index) => (
+            <tr key={index} className='class-row'>
+              <td>
+                <Link className='class-link' to={`/grade-history/${cls.name}`}>{cls.name}</Link>
+              </td>
+              <td>{cls.room}</td>
+              <td>{cls.teacher}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
