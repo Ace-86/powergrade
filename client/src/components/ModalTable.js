@@ -1,8 +1,9 @@
 import React from 'react';
+import '../styles/ModalTable.css';
 
 const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignments }) => {
   // Calculate the sum of possiblePointsEarned for all assignments
-    const calculatePossibleTotalPointsEarned = () => {
+    const calTotalPointsEarned = () => {
     let possibleTotalPointsEarned = 0;
     modalAssignments.forEach((assignment) => {
       possibleTotalPointsEarned += assignment.possiblePointsEarned;
@@ -12,14 +13,13 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
 
   // Calculate the percentage based on the sum of points earned and total points of all assignments
   const calculatePossiblePercentage = () => {
-    const possibleTotalPointsEarned = calculatePossibleTotalPointsEarned();
+    const possibleTotalPointsEarned = calTotalPointsEarned();
     let totalPoints = 0;
     let totalPointsEarned = 0;
     modalAssignments.forEach((assignment) => {
       totalPoints += assignment.totalPoints;
-      totalPointsEarned += assignment.pointsEarned;
+      totalPointsEarned += assignment.pointsEarned + assignment.possiblePointsEarned; // Updated calculation
     });
-    totalPointsEarned += possibleTotalPointsEarned;
     if (totalPoints === 0) {
       return 0;
     }
@@ -38,7 +38,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
     } else if (possiblePercentage >= 60) {
       return 'D';
     } else {
-      return 'E';
+      return 'F';
     }
   };
 
@@ -51,7 +51,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
   };
 
   return (
-    <div>
+    <div className='modal-table-container' >
       <table>
         <thead>
           <tr>
@@ -60,8 +60,6 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
             <th>Date</th>
             <th>Total Points</th>
             <th>Points Earned</th>
-            <th>%</th>
-            <th>Grade</th>
           </tr>
         </thead>
         <tbody>
@@ -84,14 +82,12 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
                   assignment.pointsEarned
                 )}
               </td>
-              <td>{assignment.percentage || '-'}</td>
-              <td>{assignment.letter_grade || '-'}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className="modal-footer">
+      <div className="floating-container">
         <div className="total-grade">
           <span>Possible Total Grade: </span>
           <span>{calculatePossibleGrade()}</span>
@@ -103,6 +99,6 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
       </div>
     </div>
   );
-};
+};;
 
 export default ModalTable;
