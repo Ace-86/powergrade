@@ -40,7 +40,7 @@ return (
 <div className="container-history">
 <h2>Current Grades: {className}</h2>
 <button className="edit-btn" onClick={() => setShowModal(true)}>
-Possible Grade
+Simulate Grade
 </button>
 <GradeTable filteredAssignments={filteredAssignments} />
 <div className="floating-container-grade">
