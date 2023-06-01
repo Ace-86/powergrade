@@ -7,7 +7,7 @@ const classes = [
   { name: 'Math', room: '201', teacher: 'Mrs. Johnson', className: 'math' },
   { name: 'Gym', room: 'Gymnasium', teacher: 'Coach Anderson', className: 'gym' },
   { name: 'Science', room: '301', teacher: 'Mr. Davis', className: 'science' },
-  { name: 'History', room: '301', teacher: 'Mrs. Anderson', className: '' },
+  { name: 'History', room: '301', teacher: 'Mrs. Anderson', className: 'American History' },
 ];
 
 const ClassList = () => {
@@ -23,10 +23,10 @@ const ClassList = () => {
           </tr>
         </thead>
         <tbody>
-          {classes.map((cls, index) => (
+          {classes.map((cls, index) => ( 
             <tr key={index} className='class-row'>
               <td>
-                <Link className='class-link' to={`/grade-history/${cls.name}`}>{cls.name}</Link>
+                <Link className='class-link' to={`/grade-history/${cls.name}`}>{cls.name}</Link> {/* create a link to each class within the classes array  */}
               </td>
               <td>{cls.room}</td>
               <td>{cls.teacher}</td>

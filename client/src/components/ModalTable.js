@@ -1,18 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import emailjs from 'emailjs-com';
 import '../styles/ModalTable.css';
 
 const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignments }) => {
-  const [tooltipVisible, setTooltipVisible] = useState(false);
 
+// if student clicks on ! button, an email will be sent to them reminding them to turn in missing work
   const sendReminderEmail = (assignment) => {
-    const templateParams = {
-      to_email: 'email',
-      assignment_work: assignment.work,
-      assignment_category: assignment.category,
-      assignment_date: assignment.date,
-    };
-
     emailjs.send('service_dl42nln', 'template_pscawnq', {from_name: "PowerGrade", to_name: "Student", message: "This is a reminder to turn in your missing assignment"}, 'uEZE4OEUVBMxrsHxN')
       .then((response) => {
         console.log('Email sent successfully!', response);
@@ -46,7 +39,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
     return ((totalPointsEarned / totalPoints) * 100).toFixed(2);
   };
 
-  // Determine the grade based on the possible percentage
+  // determine the grade based on the possible percentage
   const calculatePossibleGrade = () => {
     const possiblePercentage = calculatePossiblePercentage();
     if (possiblePercentage >= 90) {
@@ -121,12 +114,12 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
 
       <div className="floating-container">
         <div className="total-grade">
-          <span>Possible Total Grade: </span>
-          <span>{calculatePossibleGrade()}</span>
+          <span >Possible Grade: </span>
+          <span className='grade-calc'>{calculatePossibleGrade()}</span>
         </div>
         <div className="total-percent">
-          <span>Possible Total Percent: </span>
-          <span>{calculatePossiblePercentage()}%</span>
+          <span >Possible Percentage: </span>
+          <span className='percent-calc'>{calculatePossiblePercentage()}%</span>
         </div>
       </div>
     </div>

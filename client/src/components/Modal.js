@@ -6,7 +6,7 @@ import '../styles/Modal.css';
 const Modal = ({ showModal, setShowModal, filteredAssignments }) => {
   const [modalAssignments, setModalAssignments] = useState(filteredAssignments);
 
- // Handler function for grade change in the modal
+ // updates possiblepoints earned when grades are edited within modal
   const handleGradeChangeModal = (event, index) => {
     const newPointsEarned = parseInt(event.target.value);
     setModalAssignments((prevAssignments) => {
@@ -39,12 +39,15 @@ const Modal = ({ showModal, setShowModal, filteredAssignments }) => {
     }
   };
 
+// 
   useEffect(() => {
+    //maps over modalassignments and calls functions to include percentage and grade for each assignment
     const updatedAssignmentsCopy = modalAssignments.map((assignment) => {
       const percentage = calculatePercentage(assignment.pointsEarned, assignment.totalPoints);
       const grade = calculateGrade(percentage);
       return { ...assignment, percentage, letter_grade: grade };
     });
+    // updates modalassignments whenever there is change in length; fixed error that would cause infinte loop and not allow proper input
     setModalAssignments(updatedAssignmentsCopy);
   }, [modalAssignments.length]);
   

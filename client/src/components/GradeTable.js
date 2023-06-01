@@ -19,7 +19,9 @@ const GradeTable = ({ filteredAssignments }) => {
         </tr>
       </thead>
       <tbody>
-        {filteredAssignments.map((assignment, index) => (
+        {/* Map over the filteredAssignments array */}
+        {filteredAssignments.map((assignment, index) => ( 
+          // creates indiv. assignment row each with unique key
           <tr key={index}>
             <td>{assignment.work}</td>
             <td>{assignment.category}</td>
