@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 import '../styles/ModalTable.css';
 
 const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignments }) => {
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+
+  const sendReminderEmail = (assignment) => {
+    const templateParams = {
+      to_email: 'email',
+      assignment_work: assignment.work,
+      assignment_category: assignment.category,
+      assignment_date: assignment.date,
+    };
+
+    emailjs.send('service_dl42nln', 'template_pscawnq', {from_name: "PowerGrade", to_name: "Student", message: "This is a reminder to turn in your missing assignment"}, 'uEZE4OEUVBMxrsHxN')
+      .then((response) => {
+        console.log('Email sent successfully!', response);
+      })
+      .catch((error) => {
+        console.error('Failed to send email:', error);
+      });
+  };
+
   // Calculate the sum of possiblePointsEarned for all assignments
-    const calTotalPointsEarned = () => {
+  const calTotalPointsEarned = () => {
     let possibleTotalPointsEarned = 0;
     modalAssignments.forEach((assignment) => {
       possibleTotalPointsEarned += assignment.possiblePointsEarned;
@@ -51,7 +71,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
   };
 
   return (
-    <div className='modal-table-container' >
+    <div className="modal-table-container">
       <table>
         <thead>
           <tr>
@@ -60,6 +80,7 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
             <th>Date</th>
             <th>Total Points</th>
             <th>Points Earned</th>
+            <th>Missing Grade</th>
           </tr>
         </thead>
         <tbody>
@@ -82,6 +103,17 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
                   assignment.pointsEarned
                 )}
               </td>
+              <td>
+                {assignment.missingGrade === 1 && (
+                  <button
+                    className="missing-grade"
+                    onClick={() => sendReminderEmail(assignment)}
+                  >
+                    !
+                  
+                  </button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -99,6 +131,6 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
       </div>
     </div>
   );
-};;
+};
 
 export default ModalTable;
