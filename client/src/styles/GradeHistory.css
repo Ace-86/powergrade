@@ -35,6 +35,8 @@
   flex-direction: row;
   margin: 10px;
   gap: 50px;
+  color: #3562c6;
+  font-weight: bold;
 }
 
 .container h2 {

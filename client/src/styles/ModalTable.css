@@ -37,7 +37,7 @@ th {
     background-color: white;
     padding: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
     border-top: 1px solid #ccc;
     box-shadow: 0px -4px 6px -1px rgba(0, 0, 0, 0.1);
   }
@@ -51,3 +51,19 @@ th {
     margin-right: 10px;
   }
   
+  .missing-grade {
+    background-color: #3562c6;
+    color: white;
+    border-radius: 10%;
+  }
+
+  .percent-calc {
+    color: #3562c6;
+    font-size: 20px;
+  }
+
+  .grade-calc {
+    color: #3562c6;
+    font-size: 20px;
+  }
+
