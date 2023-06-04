@@ -29,18 +29,20 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 var transporter = nodemailer.createTransport({
-    service: 'smpt.gmail.com',
+    service: 'gmail',
+    port: 567,
+    secure: false,
     auth: {
       user: 'aarongriffin.dev@gmail.com',
-      pass: '6729!@54'
+      pass: 'zhqk bhcq tnxw yhuf'
     }
   });
   
   var mailOptions = {
     from: 'aarongriffin.dev@gmail.com',
-    to: 'dumacct128@yahoo.com',
+    to: 'dumacct128@gmail.com',
     subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    text: 'Works'
   };
   
   transporter.sendMail(mailOptions, function(error, info){
