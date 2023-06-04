@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const app = express();
-// const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 //connects to MySQL database
 const con = mysql.createConnection({
@@ -13,7 +13,6 @@ const con = mysql.createConnection({
     database: 'UserGrade'
 });
 
-//connects to MySQL database
 con.connect(function(err){
     if(err)
     {
@@ -27,40 +26,32 @@ app.use(cors());
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}));
 
-//errors getting connection to establish using nodemailer
 
-// const transporter = nodemailer.createTransport({
-//     service: 'email-js',
-//     auth: {
-//       user: 'dummyaccount',
-//       pass: 'Anymean1',
-//     },
-//   });
 
-// app.post('/api/send-email', (req, res) => {
-  //     const { assignment } = req.body;
-  // });
-
-    // const mailOptions = {
-    //   from: 'dummy account',
-    //   to: 'awes86@gmail.com',
-    //   subject: 'Reminder: Submit Missing Work',
-    //   text: `Dear Student, \n\nYou have an assignment (${assignment.work}) for the class (${assignment.category}) due on ${assignment.date} that has not been submitted yet. Please submit it as soon as possible.\n\nBest regards,\nYour School`,
-    // };
+var transporter = nodemailer.createTransport({
+    service: 'smpt.gmail.com',
+    auth: {
+      user: 'aarongriffin.dev@gmail.com',
+      pass: '6729!@54'
+    }
+  });
   
-     // errors; future fix
-  //   transporter.sendMail(mailOptions, (error, info) => {
-  //     if (error) {
-  //       console.error('Failed to send email:', error);
-  //       res.status(500).json({ error: 'Failed to send email reminder.' });
-  //     } else {
-  //       console.log('Email sent:', info.response);
-  //       res.status(200).json({ message: 'Email reminder sent successfully!' });
-  //     }
-  //   });
-  // });
+  var mailOptions = {
+    from: 'aarongriffin.dev@gmail.com',
+    to: 'dumacct128@yahoo.com',
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
-  // SELECT query to grab  all data within table
+  // query to grab  all data within table
 
   app.get('/api/get', (req, res) => {
     const sqlSelect =
