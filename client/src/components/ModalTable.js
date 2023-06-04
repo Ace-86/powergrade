@@ -1,12 +1,12 @@
 import React from 'react';
-import emailjs from 'emailjs-com';
+import axios from 'axios';
 import '../styles/ModalTable.css';
 
 const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignments }) => {
 
-// if student clicks on ! button, an email will be sent to them reminding them to turn in missing work
+  // if student clicks on ! button, an email will be sent to them reminding them to turn in missing work
   const sendReminderEmail = (assignment) => {
-    emailjs.send('service_dl42nln', 'template_pscawnq', {from_name: "PowerGrade", to_name: "Student", message: "This is a reminder to turn in your missing assignment"}, 'uEZE4OEUVBMxrsHxN')
+    axios.post('http://localhost:3001/api/send-email', { assignment })
       .then((response) => {
         console.log('Email sent successfully!', response);
       })
@@ -103,7 +103,6 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
                     onClick={() => sendReminderEmail(assignment)}
                   >
                     !
-                  
                   </button>
                 )}
               </td>
@@ -114,11 +113,11 @@ const ModalTable = ({ modalAssignments, handleGradeChangeModal, setModalAssignme
 
       <div className="floating-container">
         <div className="total-grade">
-          <span >Possible Grade: </span>
+          <span>Possible Grade: </span>
           <span className='grade-calc'>{calculatePossibleGrade()}</span>
         </div>
         <div className="total-percent">
-          <span >Possible Percentage: </span>
+          <span>Possible Percentage: </span>
           <span className='percent-calc'>{calculatePossiblePercentage()}%</span>
         </div>
       </div>
