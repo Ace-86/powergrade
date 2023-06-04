@@ -18,7 +18,7 @@ con.connect(function(err){
     {
         console.log(err)
     } else {
-        console.log("connected")
+        console.log("WE GOT A CONNECTION!! EMAIL REMINDER WORKING!")
     }
 })
 
@@ -26,8 +26,7 @@ app.use(cors());
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}));
 
-
-
+//nodemailer verification; had to create special password for gmail to work correctly
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 567,
@@ -36,24 +35,35 @@ var transporter = nodemailer.createTransport({
       user: 'aarongriffin.dev@gmail.com',
       pass: 'zhqk bhcq tnxw yhuf'
     }
-  });
+});
   
-  var mailOptions = {
-    from: 'aarongriffin.dev@gmail.com',
-    to: 'dumacct128@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'Works'
-  };
+//express defining route for http post request
+app.post('/api/send-email', (req, res) => {
+//    extract assignment from req.body object
+    const { assignment } = req.body;
   
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
+    const mailOptions = {
+      from: 'aarongriffin.dev@gmail.com',
+      to: 'dumacct128@gmail.com',
+      subject: 'PowerGrade: Reminder',
+      text: `Dear Student, \n\nYou have an missing assignment (${assignment.work}) for the class (${assignment.className}) that was due on ${assignment.date}. 
+      This is a reminder for you to submit your missing work. Please email your teacher when you have completed the task.
+      \n\nBest regards,\nPowerGrade`,
+    };
+  
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Failed to send email reminder.' });
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(200).json({ message: 'Email reminder sent successfully!' });
+      }
+    });
   });
 
-  // query to grab  all data within table
+
+  // SELECT query to grab  all data within table
 
   app.get('/api/get', (req, res) => {
     const sqlSelect =
