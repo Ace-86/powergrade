@@ -26,7 +26,7 @@ Upcoming Features
 Technology Used
 -React, Javascript, Node.js, Express, nodemailer
 
-Challenges
+Challenges (fixed so far...)
 - changes made in modal would effect the current grades page
 - infinite loop whenever the modal was opened
 - undefined to defined value (breaking react rules )caused the input not to be recognized and it wouldnt update the values of percentage and grade  
