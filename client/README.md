@@ -1,5 +1,3 @@
-will update
-
 Problems I have encountered:
 
 1) changes made in modal would effect the current grades page (unintended); Fixed by creating a renamed cloned array containing the same data and only allowing the modal to access the clone for grade edits
